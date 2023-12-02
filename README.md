@@ -29,7 +29,7 @@
         -b = bcrypt
 
 ## Formating
-`python3 masterCrack.py {password} {method} {mode} {hashMethod}`
+`python3 Cracking.py {password} {method} {mode} {hashMethod}`
 `python3 Cracking.py 81dc9bdb52d04dc20036dbd8313ed055 -b -e -m `
 `python3 Cracking.py 1234 -d -p`
 ## Dependencies:
