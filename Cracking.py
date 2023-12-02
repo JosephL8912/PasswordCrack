@@ -108,7 +108,7 @@ def dictionaryAtk(mode, pwd):
 alpha = string.printable #set alpha equal too all the printible a
 
 if (not argTrue):
-    choice = int(input("\n\n*******MENU*******\n\n1.Plaintext\n2.Encrpyted\nWhat mode: "))
+    choice = int(input("\n\n*******MENU*******\n\n1.Plaintext\n2.Encrpyted\nHow is the password stored: "))
 
     if choice == 2:
         encryptMode = int(input("1.MD5\n2.SHA-256\n3.BCrypt (very slow)\nWhat encrpytion cracking mode: "))
