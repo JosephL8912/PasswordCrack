@@ -4,20 +4,41 @@ import sys
 import hashlib
 import bcrypt
 
+try: #catching arguements from the console
+    argTrue = False
+    password = str(sys.argv[1])
+    method = int(sys.argv[2])
+    if (method>2 or method<0): #raise exception if outside of param
+        raise Exception
+    choice = int(sys.argv[3])
+    if (method>2 or method<0):#raise exception if outside of param
+        raise Exception
+    if (choice == 2): #ask for encryptMode if user selects enryption
+        encryptMode = int(sys.argv[4])
+        if (method>3 or method<0):#raise exception if outside of param
+            raise Exception
+    argTrue = True
+except:
+    print("Looks like your arguements were bad. ")
+    end = int(input("1.Yes\n2.No\nWould you like to continue without commandline arguements? "))
+    if (end == 2):
+        print("Try again")
+        sys.exit()
+
 alpha = string.printable #set alpha equal too all the printible a
 
+if (not argTrue):
+    choice = int(input("\n\n*******MENU*******\n\n1.Plaintext\n2.Encrpyted\nWhat mode: "))
 
-choice = int(input("\n\n*******MENU*******\n\n1.Plaintext\n2.Encrpyted\nWhat mode: "))
-
-if choice == 2:
-    encryptMode = int(input("1.MD5\n2.SHA-256\n3.BCrypt\nWhat encrpytion cracking mode: "))
+    if choice == 2:
+        encryptMode = int(input("1.MD5\n2.SHA-256\n3.BCrypt (very slow)\nWhat encrpytion cracking mode: "))
     
-method = int(input("1.BruteForce\n2.Dictionary\nWhat method: "))
+    method = int(input("1.BruteForce\n2.Dictionary\nWhat method: "))
 
-password = str(input("What is the target? "))
+    password = str(input("What is the target? "))
        
-if (choice == 1):
-    if (method == 1):
+if (choice == 1): #plaintext cracking
+    if (method == 1): #bruteforce
 
         max_length = int(input("What is the max length you want to brute force? ")) #asking for the max length of the brute force try
 
@@ -30,7 +51,8 @@ if (choice == 1):
                 if (target == password): #compare guess to the password
                     print("Password found: " + target + " took " + str(counter) + " tries")
                     sys.exit() #when password is found kill the program
-    if (method == 2):
+                    
+    if (method == 2): #dictionary
         counter = 0 #counter for how many tries it takes
         passList = open("passList.txt", "r").read() #read file
         pList = passList.splitlines() #create a list of passwords
@@ -42,8 +64,8 @@ if (choice == 1):
             elif (counter == 10000):
                 print ("Password wasn't found in dictionary :(")
                 
-if (choice == 2):
-    if (method == 1):
+if (choice == 2): #hash cracking
+    if (method == 1): #bruteforce
         if (encryptMode == 1): #md5
 
             counter = 0 #counter for how many tries it takes
@@ -57,16 +79,69 @@ if (choice == 2):
                         print("Password found: " + target + " took " + str(counter) + " tries")
                         sys.exit() #when password is found kill the program
                         
-        if (encryptMode == 2): #sha256
+        elif (encryptMode == 2): #sha256
 
             counter = 0 #counter for how many tries it takes
 
             for length in range(1, 999): #tries all lengths from 1 to max
                 for comb in itertools.product(alpha, repeat=length): #tries all the combinations of the ascii letters
                     target = "".join(comb)
-                    hashedTarget = hashlib.sha256(target.encode('utf-8')).hexdigest() #hashes target with MD5
+                    hashedTarget = hashlib.sha256(target.encode('utf-8')).hexdigest() #hashes target with sah256
                     counter += 1
                     if (hashedTarget == password): #compare guess hash with actual hash
                         print("Password found: " + target + " took " + str(counter) + " tries")
                         sys.exit() #when password is found kill the program
+            
+        elif (encryptMode == 3): #bcrypt
+
+            counter = 0 #counter for how many tries it takes
+
+            for length in range(1, 999): #tries all lengths from 1 to max
+                for comb in itertools.product(alpha, repeat=length): #tries all the combinations of the ascii letters
+                    target = "".join(comb)
+                    encodeTarget = target.encode('utf-8') 
+                    counter += 1
+                    if (bcrypt.checkpw(encodeTarget, password.encode('utf-8'))): #compare guess to the hash using bcrypt 
+                        print("Password found: " + target + " took " + str(counter) + " tries")
+                        sys.exit() #when password is found kill the program
+                        
+    if (method == 2): #dictionary
         
+        if (encryptMode == 1): #md5
+            counter = 0 #counter for how many tries it takes
+            passList = open("passList.txt", "r").read() #read file
+            pList = passList.splitlines() #create a list of passwords
+            for p in pList: #itterates over the passwords
+                counter += 1
+                hashedp = hashlib.md5(p.encode('utf-8')).hexdigest() #hashes target with MD5
+                if (hashedp == password): #compare guess to the password
+                    print("Password found: " + p + " took " + str(counter) + " tries")
+                    sys.exit() #when password is found kill the program
+                elif (counter == 10000):
+                    print ("Password wasn't found in dictionary :(")
+                
+        elif (encryptMode == 2): #sha256
+            counter = 0 #counter for how many tries it takes
+            passList = open("passList.txt", "r").read() #read file
+            pList = passList.splitlines() #create a list of passwords
+            for p in pList: #itterates over the passwords
+                counter += 1
+                hashedp = hashlib.sha256(p.encode('utf-8')).hexdigest() #hashes target with sha256
+                if (hashedp == password): #compare guess to the password
+                    print("Password found: " + p + " took " + str(counter) + " tries")
+                    sys.exit() #when password is found kill the program
+                elif (counter == 10000):
+                    print ("Password wasn't found in dictionary :(")
+                    
+        elif (encryptMode == 3): #bcrypt
+            counter = 0 #counter for how many tries it takes
+            passList = open("passList.txt", "r").read() #read file
+            pList = passList.splitlines() #create a list of passwords
+            for p in pList: #itterates over the passwords
+                counter += 1
+                encodep = p.encode('utf-8') 
+                if (bcrypt.checkpw(encodep, password.encode('utf-8'))): #compare guess to the hash using bcrypt
+                    print("Password found: " + p + " took " + str(counter) + " tries")
+                    sys.exit() #when password is found kill the program
+                elif (counter == 10000):
+                    print ("Password wasn't found in dictionary :(")
