@@ -7,16 +7,36 @@ import bcrypt
 try: #catching arguements from the console
     argTrue = False
     password = str(sys.argv[1])
-    method = int(sys.argv[2])
-    if (method>2 or method<0): #raise exception if outside of param
+    
+    methodArg = str(sys.argv[2])
+    if (methodArg != "-b" and methodArg != "-d"): #raise exception if outside of param
+        print ("hi")
         raise Exception
-    choice = int(sys.argv[3])
-    if (method>2 or method<0):#raise exception if outside of param
+    elif(methodArg == "-b"):
+        method = 1
+    else:
+        method = 2
+        
+    choiceArg = str(sys.argv[3])
+    if (choiceArg != "-p" and choiceArg != "-e"):#raise exception if outside of param
         raise Exception
-    if (choice == 2): #ask for encryptMode if user selects enryption
-        encryptMode = int(sys.argv[4])
-        if (method>3 or method<0):#raise exception if outside of param
+    elif(choiceArg == "-p"):
+        choice = 1
+    else:
+        choice = 2
+       
+    if (choiceArg == "-e"): #ask for encryptMode if user selects enryption
+        encryptModeArg = str(sys.argv[4])
+        if (encryptModeArg != "-m" and encryptModeArg != "-s" and encryptModeArg != "-b"):#raise exception if outside of param
             raise Exception
+        elif(encryptModeArg == "-m"):
+            encryptMode = 1
+        elif (encryptModeArg == "-s"):
+            encryptMode = 2
+        else:
+            encryptMode = 3
+        
+        
     argTrue = True
 except:
     print("Looks like your arguements were bad. ")
