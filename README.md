@@ -1,4 +1,5 @@
 # PasswordCrack
+## 2023 CLHS Cybersecurity
 ## Rubric (51/51)
 - [x] Usage of GitHub (3)
 - [x] Load 10,000 most common passwords (4)
@@ -20,7 +21,7 @@
 
         -e = crack encrypted
 
-### Hash Method (only used it mode is set to -e)
+### Hash Method (only used if mode is set to -e)
         -m = MD5
         
         -s = SHA256
