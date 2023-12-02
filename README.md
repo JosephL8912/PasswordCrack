@@ -2,7 +2,7 @@
 
 ### Command Line Arguments
 
-        -b = brute force *** Not Implemented ***
+        -b = brute force 
 
         -d = dictionary attack
 
@@ -17,3 +17,8 @@
         -s = SHA256
         
         -b = bcrypt
+
+### Formating
+
+    - Python3 Cracking.py 81dc9bdb52d04dc20036dbd8313ed055 -b -e -m 
+    - Python3 Cracking.py 1234 -d -p 
