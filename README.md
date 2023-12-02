@@ -28,9 +28,17 @@
         -b = bcrypt
 
 ### Formating
+    
+     `python3 masterCrack.py {password} {method} {mode} {hashMethod}`
+     - Python3 Cracking.py 81dc9bdb52d04dc20036dbd8313ed055 -b -e -m 
+     - Python3 Cracking.py 1234 -d -p 
 
-    - Python3 Cracking.py 81dc9bdb52d04dc20036dbd8313ed055 -b -e -m 
-    - Python3 Cracking.py 1234 -d -p 
+### Dependencies:
+`itertools`
+`string`
+`sys`
+`hashlib`
+`bcrypt`
 
 ### Discalimer
         I used Anaconda Spyder to run this program. Between IDEs I'm unsure if bcrypt works as intended.
